@@ -255,62 +255,68 @@
                 
                 <!-- Poisson Card -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute top-0 right-0 p-3 text-slate-800 text-6xl font-bold select-none pointer-events-none">
+                    <!-- Soluzione del posizionamento della P di sfondo per non coprire il testo -->
+                    <div class="absolute top-0 right-0 p-3 text-slate-800 text-6xl font-bold select-none pointer-events-none" style="z-index: 0; opacity: 0.15;">
                         \(\text{P}\)
                     </div>
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs bg-slate-800 text-slate-400 font-semibold px-2 py-1 rounded">Modello Stazionario</span>
-                            <span class="text-xs text-slate-500 flex items-center gap-1"><i class="fa-solid fa-clock-rotate-left"></i> Senza Memoria</span>
+                    <div class="relative z-10 flex flex-col justify-between h-full w-full">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs bg-slate-800 text-slate-400 font-semibold px-2 py-1 rounded">Modello Stazionario</span>
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i class="fa-solid fa-clock-rotate-left"></i> Senza Memoria</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-4">Modello di Poisson</h3>
+                            
+                            <div class="flex items-baseline gap-1.5 mb-1">
+                                <span id="prob-poisson" class="text-4xl font-extrabold text-slate-100 tracking-tight">-</span>
+                                <span class="text-sm font-semibold text-slate-400">%</span>
+                            </div>
+                            <!-- Confidence Interval -->
+                            <div class="text-xs text-slate-400 flex items-center gap-1.5 mb-4">
+                                <span class="font-semibold text-slate-300">Int. Confidenza (95%):</span>
+                                <span id="ci-poisson" class="font-mono text-emerald-400">-</span>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-4">Modello di Poisson</h3>
                         
-                        <div class="flex items-baseline gap-1.5 mb-1">
-                            <span id="prob-poisson" class="text-4xl font-extrabold text-slate-100 tracking-tight">-</span>
-                            <span class="text-sm font-semibold text-slate-400">%</span>
-                        </div>
-                        <!-- Confidence Interval -->
-                        <div class="text-xs text-slate-400 flex items-center gap-1.5 mb-4">
-                            <span class="font-semibold text-slate-300">Int. Confidenza (95%):</span>
-                            <span id="ci-poisson" class="font-mono text-emerald-400">-</span>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
-                        <div class="text-[10px] font-semibold text-slate-500 uppercase mb-1">Equazione di Riferimento</div>
-                        <div class="text-xs text-slate-300 font-mono text-center">
-                            \(P(X \ge 1) = 1 - e^{-\lambda \Delta t}\)
+                        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
+                            <div class="text-[10px] font-semibold text-slate-500 uppercase mb-1">Equazione di Riferimento</div>
+                            <div class="text-xs text-slate-300 font-mono text-center">
+                                \(P(X \ge 1) = 1 - e^{-\lambda \Delta t}\)
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Weibull Card -->
                 <div class="bg-slate-900 border border-brand-900/50 rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute top-0 right-0 p-3 text-brand-900/20 text-6xl font-bold select-none pointer-events-none">
+                    <!-- Soluzione del posizionamento della W di sfondo per coerenza visiva -->
+                    <div class="absolute top-0 right-0 p-3 text-brand-900/20 text-6xl font-bold select-none pointer-events-none" style="z-index: 0; opacity: 0.15;">
                         \(\text{W}\)
                     </div>
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs bg-brand-950 text-brand-400 font-semibold px-2 py-1 rounded border border-brand-900/30">Modello Dinamico</span>
-                            <span class="text-xs text-brand-400 flex items-center gap-1"><i class="fa-solid fa-brain"></i> Con Memoria</span>
+                    <div class="relative z-10 flex flex-col justify-between h-full w-full">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs bg-brand-950 text-brand-400 font-semibold px-2 py-1 rounded border border-brand-900/30">Modello Dinamico</span>
+                                <span class="text-xs text-brand-400 flex items-center gap-1"><i class="fa-solid fa-brain"></i> Con Memoria</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-4">Modello di Weibull</h3>
+                            
+                            <div class="flex items-baseline gap-1.5 mb-1">
+                                <span id="prob-weibull" class="text-4xl font-extrabold text-brand-500 tracking-tight">-</span>
+                                <span class="text-sm font-semibold text-brand-400">%</span>
+                            </div>
+                            <!-- Confidence Interval -->
+                            <div class="text-xs text-slate-400 flex items-center gap-1.5 mb-4">
+                                <span class="font-semibold text-slate-300">Int. Confidenza (95%):</span>
+                                <span id="ci-weibull" class="font-mono text-emerald-400">-</span>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-4">Modello di Weibull</h3>
                         
-                        <div class="flex items-baseline gap-1.5 mb-1">
-                            <span id="prob-weibull" class="text-4xl font-extrabold text-brand-500 tracking-tight">-</span>
-                            <span class="text-sm font-semibold text-brand-400">%</span>
-                        </div>
-                        <!-- Confidence Interval -->
-                        <div class="text-xs text-slate-400 flex items-center gap-1.5 mb-4">
-                            <span class="font-semibold text-slate-300">Int. Confidenza (95%):</span>
-                            <span id="ci-weibull" class="font-mono text-emerald-400">-</span>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
-                        <div class="text-[10px] font-semibold text-slate-500 uppercase mb-1">Equazione di Riferimento</div>
-                        <div class="text-xs text-slate-300 font-mono text-center">
-                            \(P_{\text{cond}} = 1 - e^{\left(\frac{T_e}{\beta}\right)^k - \left(\frac{T_e + \Delta t}{\beta}\right)^k}\)
+                        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
+                            <div class="text-[10px] font-semibold text-slate-500 uppercase mb-1">Equazione di Riferimento</div>
+                            <div class="text-xs text-slate-300 font-mono text-center">
+                                \(P_{\text{cond}} = 1 - e^{\left(\frac{T_e}{\beta}\right)^k - \left(\frac{T_e + \Delta t}{\beta}\right)^k}\)
+                            </div>
                         </div>
                     </div>
                 </div>
