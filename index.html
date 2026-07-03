@@ -394,8 +394,9 @@
                             $$\lambda = \frac{N}{T}$$
                             L'errore standard associato a \(\lambda\), dettato dalle proprietà intrinseche del processo statistico di Poisson, è:
                             $$\sigma_{\lambda} = \frac{\sqrt{N}}{T}$$
-                            Attraverso la propagazione dell'incertezza con il metodo Delta, l'errore standard sulla probabilità di Poisson è calcolato come:
-                            $$\sigma_{P} \approx \Delta t \cdot e^{-\lambda \Delta t} \cdot \sigma_{\lambda}$$
+                            L'intervallo di confidenza al 95% per la probabilità di Poisson viene calcolato trasformando gli estremi dell'intervallo di confidenza di \(\lambda\):
+                            $$P_{\text{low}} = 1 - e^{-\lambda_{\text{high}} \Delta t}, \quad P_{\text{high}} = 1 - e^{-\lambda_{\text{low}} \Delta t}$$
+                            dove \(\lambda_{\text{low}} = \max(0, \lambda - 1.96 \sigma_{\lambda})\) e \(\lambda_{\text{high}} = \lambda + 1.96 \sigma_{\lambda}\).
                         </div>
                     </div>
                     <div>
@@ -420,7 +421,7 @@
                             $$\beta = \frac{E[T]}{\Gamma(1 + 1/k)} = \frac{1}{\lambda \cdot \Gamma(1 + 1/k)}$$
                             La probabilità condizionata sismica, sapendo che sono trascorsi \(T_e\) anni di quiescenza dall'ultimo evento forte, è:
                             $$P(T \le T_e + \Delta t \mid T > T_e) = 1 - \exp\left[ \left(\frac{T_e}{\beta}\right)^k - \left(\frac{T_e + \Delta t}{\beta}\right)^k \right]$$
-                            Gli intervalli di confidenza per Weibull vengono calcolati nel nostro motore computazionale mediante perturbazione controllata (\(1.96 \cdot \sigma_{\lambda}\)) sul parametro di scala \(\beta\).
+                            Gli intervalli di confidenza per Weibull vengono calcolati propagando l'incertezza su \(\lambda\) (e quindi su \(\beta\)) attraverso la stessa formula, garantendo che i limiti siano sempre compresi tra 0 e 1.
                         </div>
                     </div>
                     <div>
@@ -441,8 +442,8 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-950 px-6 py-6 text-center text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto">
-            <p class="flex items-center justify-center gap-1"><i class="fa-solid fa-code text-brand-500"></i> Sviluppato in conformità con i protocolli internazionali FDSN / INGV.</p>
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
+            <p class="flex items-center gap-1"><i class="fa-solid fa-code text-brand-500"></i> Sviluppato in conformità con i protocolli internazionali FDSN / INGV.</p>
         </div>
     </footer>
 
@@ -578,22 +579,14 @@
 
         // Calcola probabilità di Poisson
         function calculatePoisson(lambda, dt) {
-            const prob = 1 - Math.exp(-lambda * dt);
-            return prob;
-        }
-
-        // Calcola incertezza di Poisson con Metodo Delta
-        function calculatePoissonUncertainty(lambda, sigma_lambda, dt) {
-            const sigma_P = dt * Math.exp(-lambda * dt) * sigma_lambda;
-            return sigma_P;
+            return 1 - Math.exp(-lambda * dt);
         }
 
         // Calcola probabilità di Weibull
         function calculateWeibull(beta, k, Te, dt) {
             const powerTe = Math.pow(Te / beta, k);
             const powerTeDt = Math.pow((Te + dt) / beta, k);
-            const prob = 1 - Math.exp(powerTe - powerTeDt);
-            return prob;
+            return 1 - Math.exp(powerTe - powerTeDt);
         }
 
         /* ============================================================
@@ -711,11 +704,21 @@
 
             // 1. Poisson
             const pPoisson = calculatePoisson(lambda, dt);
-            const sigmaPPoisson = calculatePoissonUncertainty(lambda, sigma_lambda, dt);
             
-            // Calcolo Intervallo di Confidenza al 95% (Wald / Bounded)
-            const ciPoissonMin = Math.max(0, pPoisson - 1.96 * sigmaPPoisson) * 100;
-            const ciPoissonMax = Math.min(100, pPoisson + 1.96 * sigmaPPoisson) * 100;
+            // Calcolo Intervallo di Confidenza al 95% per Poisson tramite IC su lambda
+            const z = 1.96;
+            let lambdaLow = lambda - z * sigma_lambda;
+            let lambdaHigh = lambda + z * sigma_lambda;
+            if (lambdaLow < 0) lambdaLow = 0; // il tasso non può essere negativo
+            const pLow = calculatePoisson(lambdaHigh, dt); // se lambda è alto, P è alta, quindi per il limite inferiore usiamo lambda alto? 
+            // Attenzione: P è crescente in lambda. Quindi P_min = P(lambda_min) e P_max = P(lambda_max).
+            // lambda_min = max(0, lambda - z*sigma)
+            // lambda_max = lambda + z*sigma
+            const pMin = calculatePoisson(lambdaLow, dt);
+            const pMax = calculatePoisson(lambdaHigh, dt);
+            // Ora pMin <= pMax
+            const ciPoissonMin = pMin * 100;
+            const ciPoissonMax = pMax * 100;
 
             document.getElementById('prob-poisson').innerText = (pPoisson * 100).toFixed(2);
             document.getElementById('ci-poisson').innerText = `[${ciPoissonMin.toFixed(1)}% - ${ciPoissonMax.toFixed(1)}%]`;
@@ -728,19 +731,18 @@
             const pWeibull = calculateWeibull(beta, k, Te, dt);
 
             // Stima errore Weibull propagato perturbando lambda
-            const lambdaMin = Math.max(0.0001, lambda - 1.96 * sigma_lambda);
-            const lambdaMax = lambda + 1.96 * sigma_lambda;
+            const lambdaMin = Math.max(0.0001, lambda - z * sigma_lambda);
+            const lambdaMax = lambda + z * sigma_lambda;
             
             const betaMax = (1 / lambdaMin) / gammaVal;
             const betaMin = (1 / lambdaMax) / gammaVal;
 
+            // P è decrescente in beta, quindi P_min = P(betaMax), P_max = P(betaMin)
             const pWeibullMin = calculateWeibull(betaMax, k, Te, dt) * 100;
-            const pWeibullMinClamped = Math.max(0, pWeibullMin);
             const pWeibullMax = calculateWeibull(betaMin, k, Te, dt) * 100;
-            const pWeibullMaxClamped = Math.min(100, pWeibullMax);
 
             document.getElementById('prob-weibull').innerText = (pWeibull * 100).toFixed(2);
-            document.getElementById('ci-weibull').innerText = `[${pWeibullMinClamped.toFixed(1)}% - ${pWeibullMaxClamped.toFixed(1)}%]`;
+            document.getElementById('ci-weibull').innerText = `[${pWeibullMin.toFixed(1)}% - ${pWeibullMax.toFixed(1)}%]`;
 
             // Aggiorna etichetta del grafico
             document.getElementById('chart-legend-text').innerText = `Probabilità cumulativa al variare del tempo futuro t (${unit.charAt(0).toUpperCase() + unit.slice(1)})`;
