@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rischio Sismico Italia: Analisi Statistica e Probabilistica</title>
     
+    <!-- ============================================================
+         PALETTE COLORI: unica fonte di verità.
+         Usata sia dalla config di Tailwind (classi CSS: bg-brand-500...)
+         sia dal motore JS in fondo alla pagina (Chart.js disegna su
+         <canvas> e non può leggere variabili CSS, quindi gli stessi
+         valori esadecimali vengono esposti anche via JS in APP_COLORS).
+         Se un domani cambia il brand color, si tocca solo qui.
+    ============================================================= -->
+    <script>
+        window.APP_COLORS = {
+            brand: {
+                50: '#fff1f2', 100: '#ffe4e6', 500: '#f43f5e',
+                600: '#e11d48', 700: '#be123c', 900: '#881337'
+            },
+            slate: {
+                300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 800: '#1e293b'
+            }
+        };
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,14 +32,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#fff1f2',
-                            100: '#ffe4e6',
-                            500: '#f43f5e',
-                            600: '#e11d48',
-                            700: '#be123c',
-                            900: '#881337',
-                        }
+                        brand: window.APP_COLORS.brand
                     }
                 }
             }
@@ -428,14 +441,22 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-950 px-6 py-6 text-center text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2026 Laboratorio di Sismologia Statistica Applicata.</p>
-            <p class="flex items-center gap-1"><i class="fa-solid fa-code text-brand-500"></i> Sviluppato in conformità con i protocolli internazionali FDSN / INGV.</p>
+        <div class="max-w-7xl mx-auto">
+            <p class="flex items-center justify-center gap-1"><i class="fa-solid fa-code text-brand-500"></i> Sviluppato in conformità con i protocolli internazionali FDSN / INGV.</p>
         </div>
     </footer>
 
     <!-- STATISTICAL COMPUTATION ENGINE SCRIPT -->
     <script>
+        /* ============================================================
+         * 1. CONFIGURAZIONE & DATI
+         *    Nessuna logica qui dentro: solo costanti e il dataset.
+         * ========================================================= */
+
+        // Alias locale alla palette definita in head (unica fonte di verità,
+        // condivisa con la config di Tailwind)
+        const APP_COLORS = window.APP_COLORS;
+
         // Database dei parametri sismici reali delle 10 Macro-Aree Italiane (M >= 4.0 dal 1980 ad oggi T = 46.5 anni)
         // Gutenberg-Richter scaling e declustered sismico a priori secondo l'algoritmo di Gardner & Knopoff (1974)
         const sismicoDB = {
@@ -513,8 +534,29 @@
 
         const OBSERVATION_PERIOD = 46.5; // Anni reali dal 1980 al 2026
 
+        /* ============================================================
+         * 2. STATO GLOBALE DELL'INTERFACCIA
+         *    Le uniche variabili che rappresentano "cosa sta guardando
+         *    l'utente adesso". Tutto il resto (funzioni di calcolo e
+         *    di rendering) NON deve leggere altro stato al di fuori
+         *    di questo: ogni valore che serve va passato come
+         *    parametro esplicito alla funzione, per evitare che una
+         *    funzione "prenda in prestito" per sbaglio lo stato della
+         *    zona sbagliata (è esattamente il bug corretto in precedenza
+         *    nella tabella di confronto).
+         * ========================================================= */
         let selectedZone = 'app_cent';
         let hazardChart = null;
+
+        /* ============================================================
+         * 3. FUNZIONI MATEMATICHE PURE
+         *    Solo numeri in ingresso, solo numeri in uscita.
+         *    Non toccano il DOM e non leggono variabili globali:
+         *    dato lo stesso input, restituiscono sempre lo stesso
+         *    risultato. Sono la parte "critica" da un punto di vista
+         *    scientifico, quindi vanno tenute isolate e facili da
+         *    verificare/testare a colpo d'occhio.
+         * ========================================================= */
 
         // Lanczos Gamma Approximation per Javascript sismologico nativo
         function lanczosGamma(z) {
@@ -554,6 +596,10 @@
             return prob;
         }
 
+        /* ============================================================
+         * 4. INTERAZIONE UI (lettura/scrittura controlli, non calcolo)
+         * ========================================================= */
+
         // Gestione adattamento limiti slider in base all'unità scelta
         function updateSliderLimits() {
             const unit = document.getElementById('param-unit').value;
@@ -581,6 +627,13 @@
                 teSlider.value = Math.min(100, Math.max(0, Math.round(prevTeVal / 3)));
             }
         }
+
+        /* ============================================================
+         * 5. RENDERING (funzioni con side-effect: leggono lo stato,
+         *    calcolano tramite le funzioni pure della sezione 3,
+         *    scrivono sul DOM). Qui è dove va tutta la "colla" tra
+         *    dati e interfaccia.
+         * ========================================================= */
 
         // Gestione selezione area sismica
         function selectZone(zoneKey) {
@@ -696,7 +749,7 @@
             renderHazardCurves(beta, k, Te, lambda, unit);
 
             // Aggiorna la tabella generale di riepilogo
-            rebuildTable(dt, k, magSoglia);
+            rebuildTable(dt, magSoglia);
 
             // Re-render KaTeX math elements se disponibili e se il body è caricato
             if (typeof renderMathInElement === 'function' && document.body) {
@@ -740,7 +793,7 @@
                         {
                             label: 'Modello Poisson (Senza Memoria)',
                             data: poissonPoints,
-                            borderColor: '#94a3b8',
+                            borderColor: APP_COLORS.slate[400],
                             borderWidth: 2,
                             borderDash: [5, 5],
                             pointRadius: 0,
@@ -750,7 +803,7 @@
                         {
                             label: 'Modello Weibull (Tempo-Dipendente)',
                             data: weibullPoints,
-                            borderColor: '#f43f5e',
+                            borderColor: APP_COLORS.brand[500],
                             borderWidth: 3,
                             pointRadius: 0,
                             fill: false,
@@ -764,7 +817,7 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#cbd5e1',
+                                color: APP_COLORS.slate[300],
                                 font: { size: 10, family: 'sans-serif' }
                             },
                             position: 'top'
@@ -776,65 +829,89 @@
                     },
                     scales: {
                         x: {
-                            grid: { color: '#1e293b' },
-                            ticks: { color: '#64748b', font: { size: 9 } },
-                            title: { display: true, text: `Finestra Temporale d'Accadimento (${unit.charAt(0).toUpperCase() + unit.slice(1)})`, color: '#94a3b8', font: { size: 10 } }
+                            grid: { color: APP_COLORS.slate[800] },
+                            ticks: { color: APP_COLORS.slate[500], font: { size: 9 } },
+                            title: { display: true, text: `Finestra Temporale d'Accadimento (${unit.charAt(0).toUpperCase() + unit.slice(1)})`, color: APP_COLORS.slate[400], font: { size: 10 } }
                         },
                         y: {
                             min: 0,
                             max: 100,
-                            grid: { color: '#1e293b' },
-                            ticks: { color: '#64748b', font: { size: 9 }, callback: value => value + '%' },
-                            title: { display: true, text: 'Probabilità Cumulativa (%)', color: '#94a3b8', font: { size: 10 } }
+                            grid: { color: APP_COLORS.slate[800] },
+                            ticks: { color: APP_COLORS.slate[500], font: { size: 9 }, callback: value => value + '%' },
+                            title: { display: true, text: 'Probabilità Cumulativa (%)', color: APP_COLORS.slate[400], font: { size: 10 } }
                         }
                     }
                 }
             });
         }
 
-        // Rigenera la tabella riassuntiva di tutte le aree sismiche per il confronto
-        function rebuildTable(currentDtInYears, currentK, magSoglia) {
+        // Calcola tutti i valori derivati per UNA zona (funzione pura: dati dentro, numeri fuori).
+        // Riceve la zona come argomento esplicito invece di leggere "selectedZone" dallo stato
+        // globale: così ogni riga della tabella usa SEMPRE i parametri della propria area,
+        // indipendentemente da quale zona è selezionata sulla mappa.
+        function computeZoneStats(dbEntry, magSoglia, dtInYears) {
+            let N = dbEntry.M4;
+            if (magSoglia === 'M5') N = dbEntry.M5;
+            else if (magSoglia === 'M6') N = dbEntry.M6;
+
+            const lambda = N / OBSERVATION_PERIOD;
+            const meanReturnTime = 1 / lambda;
+
+            const pPoiss = calculatePoisson(lambda, dtInYears) * 100;
+
+            // Il fattore di forma k e il tempo trascorso Te sono SEMPRE quelli
+            // caratteristici della zona (dbEntry), mai quelli dello slider globale:
+            // sono proprietà fisiche della faglia, non dell'interfaccia utente.
+            const gammaVal = lanczosGamma(1 + 1 / dbEntry.defaultK);
+            const beta = meanReturnTime / gammaVal;
+            const pWeib = calculateWeibull(beta, dbEntry.defaultK, dbEntry.defaultTe, dtInYears) * 100;
+
+            return { N, lambda, meanReturnTime, pPoiss, pWeib };
+        }
+
+        // Genera il markup di UNA riga della tabella a partire da dati già calcolati.
+        // Nessun calcolo qui dentro: solo formattazione. Separare "calcolare" da
+        // "disegnare" rende più facile controllare a colpo d'occhio che i numeri
+        // giusti arrivino al posto giusto.
+        function renderComparisonRow(name, stats, isSelected) {
+            const { N, lambda, meanReturnTime, pPoiss, pWeib } = stats;
+            const tr = document.createElement('tr');
+            tr.className = `border-b border-slate-800/40 hover:bg-slate-800/20 transition-colors ${isSelected ? 'bg-brand-950/20 text-white font-semibold' : 'text-slate-400'}`;
+            tr.innerHTML = `
+                <td class="py-2.5 px-2 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-brand-500 animate-pulse' : 'bg-slate-600'}"></span>
+                    ${name}
+                </td>
+                <td class="py-2.5 px-2 text-center font-mono">${N.toFixed(1)}</td>
+                <td class="py-2.5 px-2 text-center font-mono">${lambda.toFixed(3)}</td>
+                <td class="py-2.5 px-2 text-center">${meanReturnTime.toFixed(1)} Anni</td>
+                <td class="py-2.5 px-2 text-center font-mono text-slate-300">${pPoiss.toFixed(1)}%</td>
+                <td class="py-2.5 px-2 text-center font-mono text-brand-400">${pWeib.toFixed(1)}%</td>
+            `;
+            return tr;
+        }
+
+        // Rigenera la tabella riassuntiva di tutte le aree sismiche per il confronto.
+        // Nota: non riceve più "currentK" -- ogni zona usa il proprio k caratteristico
+        // (vedi computeZoneStats), quindi qui basta il Delta t scelto dall'utente,
+        // che è l'unico parametro davvero "globale" e condiviso da tutte le righe.
+        function rebuildTable(currentDtInYears, magSoglia) {
             const tbody = document.getElementById('comparison-table-body');
             tbody.innerHTML = '';
 
             Object.keys(sismicoDB).forEach(key => {
                 const dbEntry = sismicoDB[key];
-                
-                // Legge il corretto N in base alla magnitudo
-                let N = dbEntry.M4;
-                if (magSoglia === 'M5') N = dbEntry.M5;
-                else if (magSoglia === 'M6') N = dbEntry.M6;
-
-                const T = OBSERVATION_PERIOD;
-                const lambda = N / T;
-                const meanReturnTime = 1 / lambda;
-
-                // Poisson probability
-                const pPoiss = calculatePoisson(lambda, currentDtInYears) * 100;
-
-                // Weibull probability (usa il fattore di forma k caratteristico di ciascuna area)
-                const gammaVal = lanczosGamma(1 + 1 / dbEntry.defaultK);
-                const beta = meanReturnTime / gammaVal;
-                const pWeib = calculateWeibull(beta, dbEntry.defaultK, dbEntry.defaultTe, currentDtInYears) * 100;
-
+                const stats = computeZoneStats(dbEntry, magSoglia, currentDtInYears);
                 const isSelected = key === selectedZone;
-
-                const tr = document.createElement('tr');
-                tr.className = `border-b border-slate-800/40 hover:bg-slate-800/20 transition-colors ${isSelected ? 'bg-brand-950/20 text-white font-semibold' : 'text-slate-400'}`;
-                tr.innerHTML = `
-                    <td class="py-2.5 px-2 flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-brand-500 animate-pulse' : 'bg-slate-600'}"></span>
-                        ${dbEntry.name}
-                    </td>
-                    <td class="py-2.5 px-2 text-center font-mono">${N.toFixed(1)}</td>
-                    <td class="py-2.5 px-2 text-center font-mono">${lambda.toFixed(3)}</td>
-                    <td class="py-2.5 px-2 text-center">${meanReturnTime.toFixed(1)} Anni</td>
-                    <td class="py-2.5 px-2 text-center font-mono text-slate-300">${pPoiss.toFixed(1)}%</td>
-                    <td class="py-2.5 px-2 text-center font-mono text-brand-400">${pWeib.toFixed(1)}%</td>
-                `;
-                tbody.appendChild(tr);
+                tbody.appendChild(renderComparisonRow(dbEntry.name, stats, isSelected));
             });
         }
+
+        /* ============================================================
+         * 6. EVENT LISTENER E INIZIALIZZAZIONE
+         *    Ultimo blocco: collega i controlli alle funzioni definite
+         *    sopra e fa partire il primo rendering all'avvio.
+         * ========================================================= */
 
         // Listener dei controlli
         document.getElementById('param-dt').addEventListener('input', updateComputation);
