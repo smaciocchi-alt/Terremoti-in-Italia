@@ -347,10 +347,10 @@
                             <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
                                 <th class="py-3 px-2">Area</th>
                                 <th class="py-3 px-2 text-center">N. Mainshocks</th>
-                                <th class="py-3 px-2 text-center">Tasso Anno (\(\lambda\))</th>
+                                <th class="py-3 px-2 text-center">Tasso Anno</th>
                                 <th class="py-3 px-2 text-center">Intervallo Medio</th>
-                                <th class="py-3 px-2 text-center">P. Poisson (\(\Delta t\))</th>
-                                <th class="py-3 px-2 text-center">P. Weibull (\(\Delta t\))</th>
+                                <th class="py-3 px-2 text-center">P. Poisson</th>
+                                <th class="py-3 px-2 text-center">P. Weibull</th>
                             </tr>
                         </thead>
                         <tbody id="comparison-table-body" class="divide-y divide-slate-800/50 text-[11px]">
@@ -812,10 +812,10 @@
                 // Poisson probability
                 const pPoiss = calculatePoisson(lambda, currentDtInYears) * 100;
 
-                // Weibull probability
-                const gammaVal = lanczosGamma(1 + 1 / currentK);
+                // Weibull probability (usa il fattore di forma k caratteristico di ciascuna area)
+                const gammaVal = lanczosGamma(1 + 1 / dbEntry.defaultK);
                 const beta = meanReturnTime / gammaVal;
-                const pWeib = calculateWeibull(beta, currentK, dbEntry.defaultTe, currentDtInYears) * 100;
+                const pWeib = calculateWeibull(beta, dbEntry.defaultK, dbEntry.defaultTe, currentDtInYears) * 100;
 
                 const isSelected = key === selectedZone;
 
@@ -830,7 +830,7 @@
                     <td class="py-2.5 px-2 text-center font-mono">${lambda.toFixed(3)}</td>
                     <td class="py-2.5 px-2 text-center">${meanReturnTime.toFixed(1)} Anni</td>
                     <td class="py-2.5 px-2 text-center font-mono text-slate-300">${pPoiss.toFixed(1)}%</td>
-                    <td class="py-2.5 px-2 text-center font-mono text-brand-400">${pWeib.toFixed(1)}% <span class="text-[9px] text-slate-500">(T_e=${dbEntry.defaultTe}a)</span></td>
+                    <td class="py-2.5 px-2 text-center font-mono text-brand-400">${pWeib.toFixed(1)}%</td>
                 `;
                 tbody.appendChild(tr);
             });
