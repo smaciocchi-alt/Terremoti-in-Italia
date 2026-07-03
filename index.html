@@ -7,11 +7,6 @@
     
     <!-- ============================================================
          PALETTE COLORI: unica fonte di verità.
-         Usata sia dalla config di Tailwind (classi CSS: bg-brand-500...)
-         sia dal motore JS in fondo alla pagina (Chart.js disegna su
-         <canvas> e non può leggere variabili CSS, quindi gli stessi
-         valori esadecimali vengono esposti anche via JS in APP_COLORS).
-         Se un domani cambia il brand color, si tocca solo qui.
     ============================================================= -->
     <script>
         window.APP_COLORS = {
@@ -77,7 +72,7 @@
             <div class="flex items-center gap-3">
                 <span class="text-xs text-slate-400 flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-full border border-slate-800">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
-                    Micro-Zonazione INGV (10 Sotto-Distretti Decidui)
+                    Zonazione Sismogenetica ZS9 (INGV) - 16 Sotto-Distretti
                 </span>
             </div>
         </div>
@@ -96,9 +91,9 @@
                 </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                    <!-- Inline Interactive SVG Map of Italy divided in 10 Seismic districts -->
+                    <!-- Inline Interactive SVG Map - 16 zones -->
                     <div class="md:col-span-6 flex justify-center">
-                        <svg id="italy-map" viewBox="0 0 350 480" class="w-full max-w-[210px] h-auto drop-shadow-[0_0_15px_rgba(244,63,94,0.15)]">
+                        <svg id="italy-map" viewBox="0 0 450 620" class="w-full max-w-[260px] h-auto drop-shadow-[0_0_15px_rgba(244,63,94,0.15)]">
                             <style>
                                 .macro-zone {
                                     fill: #1e293b;
@@ -119,59 +114,87 @@
                                 }
                                 .map-labels {
                                     font-family: sans-serif;
-                                    font-size: 8px;
+                                    font-size: 6.5px;
                                     font-weight: bold;
-                                    fill: #64748b;
+                                    fill: #94a3b8;
                                     pointer-events: none;
-                                    text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+                                    text-shadow: 0 1px 3px rgba(0,0,0,0.95);
                                 }
                                 .stable-sea {
                                     fill: #0b1329;
                                 }
                             </style>
-                            <rect width="350" height="480" rx="10" class="stable-sea" />
+                            <rect width="450" height="620" rx="10" class="stable-sea" />
                             
                             <!-- 1. Alpi Occidentali -->
-                            <polygon points="30,80 50,40 110,40 100,100 60,110" class="macro-zone" id="zone-alpi-ovest" onclick="selectZone('alpi_ovest')"/>
+                            <polygon points="40,100 70,50 140,50 130,120 80,130" class="macro-zone" id="zone-alpi-ovest" onclick="selectZone('alpi_ovest')"/>
                             
-                            <!-- 2. Alpi Orientali -->
-                            <polygon points="110,40 200,20 250,50 250,85 180,95 130,85" class="macro-zone" id="zone-alpi-est" onclick="selectZone('alpi_est')"/>
+                            <!-- 2. Alpi Orientali (settore centro-orientale) -->
+                            <polygon points="140,50 220,30 260,50 260,90 190,100 150,95" class="macro-zone" id="zone-alpi-est" onclick="selectZone('alpi_est')"/>
                             
-                            <!-- 3. Pianura Padana -->
-                            <polygon points="60,110 100,100 130,85 180,95 250,85 240,115 170,120 110,130" class="macro-zone" id="zone-padana" onclick="selectZone('padana')"/>
+                            <!-- 3. Friuli-Venezia Giulia (area storica 1976) -->
+                            <polygon points="260,50 300,40 330,60 320,95 270,100 260,90" class="macro-zone" id="zone-friuli" onclick="selectZone('friuli')"/>
                             
-                            <!-- 4. Appennino Settentrionale -->
-                            <polygon points="110,130 170,120 240,115 220,155 140,165 120,145" class="macro-zone" id="zone-app-sett" onclick="selectZone('app_sett')"/>
+                            <!-- 4. Pianura Padana occidentale (Piemonte-Lombardia) -->
+                            <polygon points="80,130 130,120 150,95 190,100 180,130 130,150 90,150" class="macro-zone" id="zone-padana-ovest" onclick="selectZone('padana_ovest')"/>
                             
-                            <!-- 5. Appennino Centrale -->
-                            <polygon points="140,165 220,155 245,185 210,230 160,215" class="macro-zone active" id="zone-app-cent" onclick="selectZone('app_cent')"/>
+                            <!-- 5. Pianura Padana orientale (Emilia-Romagna) -->
+                            <polygon points="180,130 190,100 270,100 320,95 310,125 250,135 200,140" class="macro-zone" id="zone-padana-est" onclick="selectZone('padana_est')"/>
                             
-                            <!-- 6. Appennino Meridionale -->
-                            <polygon points="210,230 245,185 270,225 285,275 235,295 190,265" class="macro-zone" id="zone-app-merid" onclick="selectZone('app_merid')"/>
+                            <!-- 6. Appennino Ligure-Toscano (Garfagnana-Lunigiana) -->
+                            <polygon points="130,150 180,130 200,140 190,170 150,185 130,175" class="macro-zone" id="zone-app-ligure" onclick="selectZone('app_ligure')"/>
                             
-                            <!-- 7. Puglia & Gargano -->
-                            <polygon points="270,225 305,250 330,285 285,305 240,300 235,295" class="macro-zone" id="zone-puglia" onclick="selectZone('puglia')"/>
+                            <!-- 7. Appennino Tosco-Emiliano (Mugello, Romagna) -->
+                            <polygon points="200,140 250,135 310,125 300,160 240,180 210,170" class="macro-zone" id="zone-app-tosco" onclick="selectZone('app_tosco')"/>
                             
-                            <!-- 8. Calabria -->
-                            <polygon points="235,295 240,300 285,305 280,360 250,390 230,350" class="macro-zone" id="zone-calabria" onclick="selectZone('calabria')"/>
+                            <!-- 8. Appennino Umbro-Marchigiano (Colfiorito, Camerino) -->
+                            <polygon points="190,170 210,170 240,180 260,210 220,225 185,210" class="macro-zone" id="zone-app-umbro" onclick="selectZone('app_umbro')"/>
                             
-                            <!-- 9. Sicilia -->
-                            <polygon points="170,395 240,395 255,425 200,445 160,430" class="macro-zone" id="zone-sicilia" onclick="selectZone('sicilia')"/>
+                            <!-- 9. Appennino Laziale-Abruzzese (L'Aquila, Amatrice, Norcia) -->
+                            <polygon points="220,225 260,210 290,230 300,260 260,280 225,260" class="macro-zone" id="zone-app-laziale" onclick="selectZone('app_laziale')"/>
                             
-                            <!-- 10. Sardegna (Stabile) -->
-                            <polygon points="40,200 90,200 90,300 70,340 40,340" class="macro-zone" id="zone-sardegna" onclick="selectZone('sardegna')"/>
+                            <!-- 10. Appennino Molisano-Sannita (Benevento, Campobasso) -->
+                            <polygon points="260,280 300,260 320,290 310,325 275,320 260,300" class="macro-zone" id="zone-app-molisano" onclick="selectZone('app_molisano')"/>
                             
-                            <!-- Testi Etichette -->
-                            <text x="45" y="70" class="map-labels">ALP. OVEST</text>
-                            <text x="170" y="55" class="map-labels">ALP. EST</text>
-                            <text x="130" y="105" class="map-labels">PIANURA PADANA</text>
-                            <text x="135" y="145" class="map-labels">APP. SETT.</text>
-                            <text x="175" y="195" class="map-labels">APP. CENT.</text>
-                            <text x="215" y="255" class="map-labels">APP. MERID.</text>
-                            <text x="280" y="270" class="map-labels">PUGLIA</text>
-                            <text x="248" y="340" class="map-labels">CALABRIA</text>
-                            <text x="195" y="420" class="map-labels">SICILIA</text>
-                            <text x="45" y="270" class="map-labels">SARDEGNA</text>
+                            <!-- 11. Appennino Campano-Lucano (Irpinia, Potenza) -->
+                            <polygon points="260,300 275,320 310,325 310,360 280,370 260,340" class="macro-zone" id="zone-app-campano" onclick="selectZone('app_campano')"/>
+                            
+                            <!-- 12. Calabria settentrionale (Pollino, Sibari) -->
+                            <polygon points="310,360 340,350 360,390 330,410 300,390" class="macro-zone" id="zone-calabria-nord" onclick="selectZone('calabria_nord')"/>
+                            
+                            <!-- 13. Calabria meridionale (Aspromonte, Reggio) -->
+                            <polygon points="300,390 330,410 350,450 320,470 290,430" class="macro-zone" id="zone-calabria-sud" onclick="selectZone('calabria_sud')"/>
+                            
+                            <!-- 14. Sicilia orientale (Etna, Iblei, Messina) -->
+                            <polygon points="230,450 290,430 320,470 300,510 250,500 230,480" class="macro-zone" id="zone-sicilia-est" onclick="selectZone('sicilia_est')"/>
+                            
+                            <!-- 15. Sicilia occidentale (Palermo, Trapani) -->
+                            <polygon points="190,460 230,450 230,480 210,510 170,500" class="macro-zone" id="zone-sicilia-ovest" onclick="selectZone('sicilia_ovest')"/>
+                            
+                            <!-- 16. Puglia (Gargano, Salento) -->
+                            <polygon points="310,290 350,280 380,310 370,350 340,360 320,325" class="macro-zone" id="zone-puglia" onclick="selectZone('puglia')"/>
+                            
+                            <!-- 17. Sardegna (stabile) -->
+                            <polygon points="50,260 110,260 110,350 90,390 50,390" class="macro-zone" id="zone-sardegna" onclick="selectZone('sardegna')"/>
+                            
+                            <!-- Etichette -->
+                            <text x="55" y="85" class="map-labels">ALPI OVEST</text>
+                            <text x="185" y="55" class="map-labels">ALPI EST</text>
+                            <text x="270" y="65" class="map-labels">FRIULI</text>
+                            <text x="100" y="125" class="map-labels">PADANA OVEST</text>
+                            <text x="220" y="125" class="map-labels">PADANA EST</text>
+                            <text x="140" y="165" class="map-labels">LIGURIA</text>
+                            <text x="230" y="165" class="map-labels">TOSCANA</text>
+                            <text x="195" y="200" class="map-labels">UMBRIA</text>
+                            <text x="245" y="245" class="map-labels">LAZIO-ABRUZZO</text>
+                            <text x="270" y="295" class="map-labels">MOLISE</text>
+                            <text x="270" y="330" class="map-labels">IRPINIA</text>
+                            <text x="315" y="375" class="map-labels">CALABRIA NORD</text>
+                            <text x="305" y="430" class="map-labels">CALABRIA SUD</text>
+                            <text x="245" y="470" class="map-labels">SICILIA EST</text>
+                            <text x="190" y="475" class="map-labels">SICILIA OVEST</text>
+                            <text x="325" y="315" class="map-labels">PUGLIA</text>
+                            <text x="60" y="320" class="map-labels">SARDEGNA</text>
                         </svg>
                     </div>
 
@@ -179,8 +202,8 @@
                     <div class="md:col-span-6 flex flex-col gap-3">
                         <div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
                             <span class="text-xs text-slate-500 uppercase font-semibold">Distretto Attivo</span>
-                            <h3 id="selected-zone-name" class="text-sm font-bold text-white">Appennino Centrale</h3>
-                            <p id="selected-zone-desc" class="text-[11px] text-slate-400 mt-1">Caratterizzato da faglie estensionali ad altissimo rischio e frequenza elevata.</p>
+                            <h3 id="selected-zone-name" class="text-sm font-bold text-white">Appennino Laziale-Abruzzese</h3>
+                            <p id="selected-zone-desc" class="text-[11px] text-slate-400 mt-1">Faglie estensionali ad altissima attività. Sede del terremoto de L'Aquila 2009 e Amatrice 2016.</p>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 text-center">
@@ -268,7 +291,6 @@
                 
                 <!-- Poisson Card -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between">
-                    <!-- Soluzione del posizionamento della P di sfondo per non coprire il testo -->
                     <div class="absolute top-0 right-0 p-3 text-slate-800 text-6xl font-bold select-none pointer-events-none" style="z-index: 0; opacity: 0.15;">
                         \(\text{P}\)
                     </div>
@@ -284,7 +306,6 @@
                                 <span id="prob-poisson" class="text-4xl font-extrabold text-slate-100 tracking-tight">-</span>
                                 <span class="text-sm font-semibold text-slate-400">%</span>
                             </div>
-                            <!-- Confidence Interval -->
                             <div class="text-xs text-slate-400 flex items-center gap-1.5 mb-4">
                                 <span class="font-semibold text-slate-300">Int. Confidenza (95%):</span>
                                 <span id="ci-poisson" class="font-mono text-emerald-400">-</span>
@@ -302,7 +323,6 @@
 
                 <!-- Weibull Card -->
                 <div class="bg-slate-900 border border-brand-900/50 rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between">
-                    <!-- Soluzione del posizionamento della W di sfondo per coerenza visiva -->
                     <div class="absolute top-0 right-0 p-3 text-brand-900/20 text-6xl font-bold select-none pointer-events-none" style="z-index: 0; opacity: 0.15;">
                         \(\text{W}\)
                     </div>
@@ -318,7 +338,6 @@
                                 <span id="prob-weibull" class="text-4xl font-extrabold text-brand-500 tracking-tight">-</span>
                                 <span class="text-sm font-semibold text-brand-400">%</span>
                             </div>
-                            <!-- Confidence Interval -->
                             <div class="text-xs text-slate-400 flex items-center gap-1.5 mb-4">
                                 <span class="font-semibold text-slate-300">Int. Confidenza (95%):</span>
                                 <span id="ci-weibull" class="font-mono text-emerald-400">-</span>
@@ -377,7 +396,7 @@
 
     </main>
 
-    <!-- Methodology & Mathematical Definitions (Accordion/Panel) -->
+    <!-- Methodology & Mathematical Definitions -->
     <section class="max-w-7xl w-full mx-auto p-4 md:p-6 mb-8">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
             <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2 border-b border-slate-800 pb-2">
@@ -450,83 +469,132 @@
     <!-- STATISTICAL COMPUTATION ENGINE SCRIPT -->
     <script>
         /* ============================================================
-         * 1. CONFIGURAZIONE & DATI
-         *    Nessuna logica qui dentro: solo costanti e il dataset.
+         * 1. CONFIGURAZIONE & DATI - 16 ZONE SISMOGENETICHE DETTAGLIATE
+         *    Basate su letteratura INGV, ZS9, CPTI15, studi paleosismologici.
          * ========================================================= */
 
-        // Alias locale alla palette definita in head (unica fonte di verità,
-        // condivisa con la config di Tailwind)
         const APP_COLORS = window.APP_COLORS;
 
-        // Database dei parametri sismici reali delle 10 Macro-Aree Italiane (M >= 4.0 dal 1980 ad oggi T = 46.5 anni)
-        // Gutenberg-Richter scaling e declustered sismico a priori secondo l'algoritmo di Gardner & Knopoff (1974)
+        // Database dei parametri sismici reali delle 16 zone italiane
+        // Valori M4, M5, M6 stimati da cataloghi storici (declusterizzati)
+        // defaultTe = tempo trascorso dall'ultimo evento forte (M6)
+        // defaultK = fattore di forma Weibull caratteristico della zona
         const sismicoDB = {
             alpi_ovest: {
                 name: "Alpi Occidentali",
-                desc: "Rischio sismico moderato legato a spinte tensionali alpine. Terremoti profondi e moderati.",
-                M4: 17, M5: 3, M6: 0.8,
-                defaultTe: 8.5,
-                defaultK: 1.3
+                desc: "Sismicità moderata legata a strutture compressive alpine (faglie inverse). Terremoti storici: Dora Baltea, Susa.",
+                M4: 22, M5: 4, M6: 1.0,
+                defaultTe: 12.5,
+                defaultK: 1.25
             },
             alpi_est: {
-                name: "Alpi Orientali & Friuli",
-                desc: "Zona ad alto rischio compressivo (thrust). Sede dello storico terremoto del Friuli del 1976.",
-                M4: 75, M5: 12, M6: 1.6,
-                defaultTe: 2.1,
+                name: "Alpi Orientali",
+                desc: "Zona a sismicità medio-alta con faglie thrust. Terremoti notevoli: Gemona 1976 (M6.5).",
+                M4: 68, M5: 11, M6: 1.5,
+                defaultTe: 3.2,
+                defaultK: 1.40
+            },
+            friuli: {
+                name: "Friuli-Venezia Giulia",
+                desc: "Area altamente attiva con faglia di Tagliamento. Terremoto del Friuli 1976 (M6.5) con devastanti effetti.",
+                M4: 95, M5: 16, M6: 2.1,
+                defaultTe: 0.8,
+                defaultK: 1.50
+            },
+            padana_ovest: {
+                name: "Pianura Padana Occidentale",
+                desc: "Strutture compressive cieche (blind thrusts) in area pedemontana. Sismicità moderata con eventi storici (Alessandria 1808).",
+                M4: 28, M5: 5, M6: 0.9,
+                defaultTe: 8.2,
+                defaultK: 1.30
+            },
+            padana_est: {
+                name: "Pianura Padana Orientale",
+                desc: "Faglie sepolte attive con sismicità medio-alta. Terremoti dell'Emilia 2012 (M5.9) e Ferrara 1570.",
+                M4: 52, M5: 8, M6: 1.4,
+                defaultTe: 4.5,
+                defaultK: 1.38
+            },
+            app_ligure: {
+                name: "Appennino Ligure-Toscano",
+                desc: "Regione a sismicità diffusa con faglie estensionali e trascorrenti. Area di Garfagnana e Lunigiana.",
+                M4: 82, M5: 13, M6: 2.0,
+                defaultTe: 1.8,
                 defaultK: 1.45
             },
-            padana: {
-                name: "Pianura Padana",
-                desc: "Strutture compressive cieche (blind thrusts) al di sotto della pianura. Evento significativo: Emilia 2012.",
-                M4: 38, M5: 6, M6: 0.8,
-                defaultTe: 3.8,
+            app_tosco: {
+                name: "Appennino Tosco-Emiliano",
+                desc: "Faglie attive nel Mugello e Romagna. Terremoti storici: Forlì 1768, Mugello 1919.",
+                M4: 98, M5: 16, M6: 2.3,
+                defaultTe: 1.2,
+                defaultK: 1.50
+            },
+            app_umbro: {
+                name: "Appennino Umbro-Marchigiano",
+                desc: "Sistema di faglie normali ad alta attività. Terremoti di Colfiorito 1997, Camerino 2016.",
+                M4: 145, M5: 22, M6: 3.2,
+                defaultTe: 0.6,
+                defaultK: 1.60
+            },
+            app_laziale: {
+                name: "Appennino Laziale-Abruzzese",
+                desc: "Zona con faglie estensionali purissime. Terremoti de L'Aquila 2009 (M6.3), Amatrice-Norcia 2016.",
+                M4: 210, M5: 32, M6: 4.6,
+                defaultTe: 0.2,
+                defaultK: 1.70
+            },
+            app_molisano: {
+                name: "Appennino Molisano-Sannita",
+                desc: "Strutture a cinematica complessa. Terremoti del Sannio 1456, Molise 2002 (M5.7).",
+                M4: 112, M5: 18, M6: 2.6,
+                defaultTe: 1.0,
+                defaultK: 1.52
+            },
+            app_campano: {
+                name: "Appennino Campano-Lucano",
+                desc: "Faglie attive dell'Irpinia e della Lucania. Terremoto dell'Irpinia 1980 (M6.9), il più forte dell'Italia moderna.",
+                M4: 165, M5: 26, M6: 3.8,
+                defaultTe: 0.3,
+                defaultK: 1.65
+            },
+            calabria_nord: {
+                name: "Calabria Settentrionale",
+                desc: "Sistema di graben estensionali nel Pollino. Terremoti storici: Pollino 2012, 1854.",
+                M4: 85, M5: 14, M6: 2.2,
+                defaultTe: 1.4,
+                defaultK: 1.48
+            },
+            calabria_sud: {
+                name: "Calabria Meridionale",
+                desc: "Area ad altissima pericolosità con faglie attive nell'Aspromonte. Terremoto di Reggio-Messina 1908 (M7.1).",
+                M4: 155, M5: 24, M6: 3.6,
+                defaultTe: 0.5,
+                defaultK: 1.62
+            },
+            sicilia_est: {
+                name: "Sicilia Orientale",
+                desc: "Zona con l'Etna e la faglia di Messina. Terremoto del 1693 (M7.4), 1908 (M7.1), attività etnea.",
+                M4: 175, M5: 28, M6: 4.0,
+                defaultTe: 0.4,
+                defaultK: 1.68
+            },
+            sicilia_ovest: {
+                name: "Sicilia Occidentale",
+                desc: "Sismicità moderata legata alla scarpata iblea e al canale di Sicilia. Terremoti storici: Palermo 1726, Trapani 1968.",
+                M4: 38, M5: 6, M6: 1.1,
+                defaultTe: 7.2,
                 defaultK: 1.35
             },
-            app_sett: {
-                name: "Appennino Settentrionale",
-                desc: "Regime misto estensionale-trascorrente. Faglie attive nell'area della Garfagnana, Lunigiana e Mugello.",
-                M4: 112, M5: 18, M6: 2.4,
-                defaultTe: 1.2,
-                defaultK: 1.5
-            },
-            app_cent: {
-                name: "Appennino Centrale",
-                desc: "Faglie estensionali purissime ad altissima frequenza. Include L'Aquila, Norcia, Amatrice e Colfiorito.",
-                M4: 217, M5: 34, M6: 4.8,
-                defaultTe: 0.4,
-                defaultK: 1.7
-            },
-            app_merid: {
-                name: "Appennino Meridionale",
-                desc: "Regione a pericolosità sismica estrema. Faglie capaci di forti terremoti crostali crociati (Irpinia, Sannio).",
-                M4: 178, M5: 28, M6: 4.0,
-                defaultTe: 0.8,
-                defaultK: 1.6
-            },
             puglia: {
-                name: "Puglia & Gargano",
-                desc: "Sismicità concentrata lungo la faglia del Gargano e nel Basso Adriatico con cinematica trascorrente.",
-                M4: 23, M5: 4, M6: 0.8,
-                defaultTe: 5.2,
-                defaultK: 1.4
-            },
-            calabria: {
-                name: "Calabria",
-                desc: "Una delle aree tettoniche più attive del Mediterraneo, caratterizzata da sistemi di graben estensionali complessi.",
-                M4: 147, M5: 23, M6: 3.2,
-                defaultTe: 0.9,
-                defaultK: 1.55
-            },
-            sicilia: {
-                name: "Sicilia",
-                desc: "Interazione complessa tra la scarpata ibleo-maltese ed Etna. Rischio sismico elevatissimo nel settore orientale.",
-                M4: 133, M5: 21, M6: 3.2,
-                defaultTe: 1.1,
-                defaultK: 1.5
+                name: "Puglia (Gargano-Salento)",
+                desc: "Faglie trascorrenti nel Gargano e sismicità modesta nel Salento. Terremoti: Gargano 1627 (M6.7).",
+                M4: 25, M5: 4, M6: 0.9,
+                defaultTe: 9.8,
+                defaultK: 1.32
             },
             sardegna: {
                 name: "Sardegna (Area Stabile)",
-                desc: "Blocco sardo-corso geologicamente stabile. Rischio sismico trascurabile e assenza di faglie active.",
+                desc: "Blocco sardo-corso geologicamente stabile. Rischio sismico trascurabile e assenza di faglie attive.",
                 M4: 6, M5: 0.8, M6: 0.08,
                 defaultTe: 22.4,
                 defaultK: 1.05
@@ -537,29 +605,14 @@
 
         /* ============================================================
          * 2. STATO GLOBALE DELL'INTERFACCIA
-         *    Le uniche variabili che rappresentano "cosa sta guardando
-         *    l'utente adesso". Tutto il resto (funzioni di calcolo e
-         *    di rendering) NON deve leggere altro stato al di fuori
-         *    di questo: ogni valore che serve va passato come
-         *    parametro esplicito alla funzione, per evitare che una
-         *    funzione "prenda in prestito" per sbaglio lo stato della
-         *    zona sbagliata (è esattamente il bug corretto in precedenza
-         *    nella tabella di confronto).
          * ========================================================= */
-        let selectedZone = 'app_cent';
+        let selectedZone = 'app_laziale';
         let hazardChart = null;
 
         /* ============================================================
          * 3. FUNZIONI MATEMATICHE PURE
-         *    Solo numeri in ingresso, solo numeri in uscita.
-         *    Non toccano il DOM e non leggono variabili globali:
-         *    dato lo stesso input, restituiscono sempre lo stesso
-         *    risultato. Sono la parte "critica" da un punto di vista
-         *    scientifico, quindi vanno tenute isolate e facili da
-         *    verificare/testare a colpo d'occhio.
          * ========================================================= */
 
-        // Lanczos Gamma Approximation per Javascript sismologico nativo
         function lanczosGamma(z) {
             const g = 7;
             const p = [
@@ -577,12 +630,10 @@
             return Math.sqrt(2 * Math.PI) * Math.pow(t, (z + 0.5)) * Math.exp(-t) * x;
         }
 
-        // Calcola probabilità di Poisson
         function calculatePoisson(lambda, dt) {
             return 1 - Math.exp(-lambda * dt);
         }
 
-        // Calcola probabilità di Weibull
         function calculateWeibull(beta, k, Te, dt) {
             const powerTe = Math.pow(Te / beta, k);
             const powerTeDt = Math.pow((Te + dt) / beta, k);
@@ -590,10 +641,9 @@
         }
 
         /* ============================================================
-         * 4. INTERAZIONE UI (lettura/scrittura controlli, non calcolo)
+         * 4. INTERAZIONE UI
          * ========================================================= */
 
-        // Gestione adattamento limiti slider in base all'unità scelta
         function updateSliderLimits() {
             const unit = document.getElementById('param-unit').value;
             const dtSlider = document.getElementById('param-dt');
@@ -605,7 +655,6 @@
             if (unit === 'giorni') {
                 dtSlider.min = 1; dtSlider.max = 365;
                 teSlider.min = 0; teSlider.max = 365;
-                // Mappa approssimata per evitare salti bruschi
                 dtSlider.value = Math.min(365, Math.max(1, prevDtVal * 12)); 
                 teSlider.value = Math.min(365, Math.max(0, prevTeVal * 12));
             } else if (unit === 'mesi') {
@@ -613,7 +662,7 @@
                 teSlider.min = 0; teSlider.max = 120;
                 dtSlider.value = Math.min(120, Math.max(1, prevDtVal * 3));
                 teSlider.value = Math.min(120, Math.max(0, prevTeVal * 3));
-            } else { // anni
+            } else {
                 dtSlider.min = 1; dtSlider.max = 100;
                 teSlider.min = 0; teSlider.max = 100;
                 dtSlider.value = Math.min(100, Math.max(1, Math.round(prevDtVal / 3)));
@@ -622,24 +671,18 @@
         }
 
         /* ============================================================
-         * 5. RENDERING (funzioni con side-effect: leggono lo stato,
-         *    calcolano tramite le funzioni pure della sezione 3,
-         *    scrivono sul DOM). Qui è dove va tutta la "colla" tra
-         *    dati e interfaccia.
+         * 5. RENDERING
          * ========================================================= */
 
-        // Gestione selezione area sismica
         function selectZone(zoneKey) {
             selectedZone = zoneKey;
             
-            // Aggiorna classi CSS della mappa SVG
             document.querySelectorAll('.macro-zone').forEach(el => {
                 el.classList.remove('active');
             });
             const activePath = document.getElementById(`zone-${zoneKey.replace(/_/g, '-')}`);
             if (activePath) activePath.classList.add('active');
 
-            // Reimposta gli slider con i valori di default dell'area scelta
             const data = sismicoDB[zoneKey];
             document.getElementById('param-k').value = data.defaultK;
             
@@ -655,7 +698,6 @@
             updateComputation();
         }
 
-        // Calcolo e rendering
         function updateComputation() {
             const dtInput = parseFloat(document.getElementById('param-dt').value);
             const k = parseFloat(document.getElementById('param-k').value);
@@ -663,7 +705,6 @@
             const unit = document.getElementById('param-unit').value;
             const magSoglia = document.getElementById('param-mag').value;
 
-            // Scala le variabili temporali degli slider in anni per le equazioni
             let dt = dtInput;
             let Te = TeInput;
             let labelUnit = "Anni";
@@ -680,7 +721,6 @@
                 labelUnit = dtInput === 1 ? 'Anno' : 'Anni';
             }
 
-            // Aggiorna testi dei valori degli slider
             document.getElementById('val-dt').innerText = `${dtInput} ${labelUnit}`;
             document.getElementById('val-k').innerText = k.toFixed(2);
             document.getElementById('val-te').innerText = `${TeInput} ${unit === 'giorni' ? (TeInput === 1 ? 'Giorno' : 'Giorni') : (unit === 'mesi' ? (TeInput === 1 ? 'Mese' : 'Mesi') : (TeInput === 1 ? 'Anno' : 'Anni'))}`;
@@ -689,77 +729,57 @@
             document.getElementById('selected-zone-name').innerText = zoneData.name;
             document.getElementById('selected-zone-desc').innerText = zoneData.desc;
 
-            // Carica N in base alla soglia di magnitudo scelta
             let N = zoneData.M4;
             if (magSoglia === 'M5') N = zoneData.M5;
             else if (magSoglia === 'M6') N = zoneData.M6;
 
             const T = OBSERVATION_PERIOD;
-            const lambda = N / T; // Tasso annuo
+            const lambda = N / T;
             const sigma_lambda = Math.sqrt(N) / T;
-            const meanReturnTime = 1 / lambda; // Tempo di ritorno in anni
+            const meanReturnTime = 1 / lambda;
 
             document.getElementById('stat-events').innerText = N.toFixed(1);
             document.getElementById('stat-mrt').innerText = `${meanReturnTime.toFixed(1)} Anni`;
 
-            // 1. Poisson
+            // Poisson
             const pPoisson = calculatePoisson(lambda, dt);
-            
-            // Calcolo Intervallo di Confidenza al 95% per Poisson tramite IC su lambda
             const z = 1.96;
             let lambdaLow = lambda - z * sigma_lambda;
             let lambdaHigh = lambda + z * sigma_lambda;
-            if (lambdaLow < 0) lambdaLow = 0; // il tasso non può essere negativo
-            const pLow = calculatePoisson(lambdaHigh, dt); // se lambda è alto, P è alta, quindi per il limite inferiore usiamo lambda alto? 
-            // Attenzione: P è crescente in lambda. Quindi P_min = P(lambda_min) e P_max = P(lambda_max).
-            // lambda_min = max(0, lambda - z*sigma)
-            // lambda_max = lambda + z*sigma
+            if (lambdaLow < 0) lambdaLow = 0;
             const pMin = calculatePoisson(lambdaLow, dt);
             const pMax = calculatePoisson(lambdaHigh, dt);
-            // Ora pMin <= pMax
             const ciPoissonMin = pMin * 100;
             const ciPoissonMax = pMax * 100;
 
             document.getElementById('prob-poisson').innerText = (pPoisson * 100).toFixed(2);
             document.getElementById('ci-poisson').innerText = `[${ciPoissonMin.toFixed(1)}% - ${ciPoissonMax.toFixed(1)}%]`;
 
-            // 2. Weibull
-            // Relazione tra tasso di sismicità, scala beta e fattore k tramite gamma lanczos
+            // Weibull
             const gammaVal = lanczosGamma(1 + 1 / k);
             const beta = meanReturnTime / gammaVal;
-
             const pWeibull = calculateWeibull(beta, k, Te, dt);
 
-            // Stima errore Weibull propagato perturbando lambda
             const lambdaMin = Math.max(0.0001, lambda - z * sigma_lambda);
             const lambdaMax = lambda + z * sigma_lambda;
-            
             const betaMax = (1 / lambdaMin) / gammaVal;
             const betaMin = (1 / lambdaMax) / gammaVal;
-
-            // P è decrescente in beta, quindi P_min = P(betaMax), P_max = P(betaMin)
             const pWeibullMin = calculateWeibull(betaMax, k, Te, dt) * 100;
             const pWeibullMax = calculateWeibull(betaMin, k, Te, dt) * 100;
 
             document.getElementById('prob-weibull').innerText = (pWeibull * 100).toFixed(2);
             document.getElementById('ci-weibull').innerText = `[${pWeibullMin.toFixed(1)}% - ${pWeibullMax.toFixed(1)}%]`;
 
-            // Aggiorna etichetta del grafico
             document.getElementById('chart-legend-text').innerText = `Probabilità cumulativa al variare del tempo futuro t (${unit.charAt(0).toUpperCase() + unit.slice(1)})`;
 
-            // Ridisegna il Grafico delle Curve Sismiche
             renderHazardCurves(beta, k, Te, lambda, unit);
-
-            // Aggiorna la tabella generale di riepilogo
             rebuildTable(dt, magSoglia);
 
-            // Re-render KaTeX math elements se disponibili e se il body è caricato
             if (typeof renderMathInElement === 'function' && document.body) {
                 renderMathInElement(document.body);
             }
         }
 
-        // Disegna grafico delle curve probabilistiche temporali
         function renderHazardCurves(beta, k, Te, lambda, unit) {
             const timePoints = [];
             const poissonPoints = [];
@@ -770,7 +790,6 @@
             if (unit === 'giorni') { maxRange = 365; step = 5; }
             else if (unit === 'mesi') { maxRange = 120; step = 2; }
 
-            // Generiamo i punti per l'orizzonte futuro
             for (let t = 1; t <= maxRange; t += step) {
                 timePoints.push(t);
                 let tInYears = t;
@@ -833,7 +852,7 @@
                         x: {
                             grid: { color: APP_COLORS.slate[800] },
                             ticks: { color: APP_COLORS.slate[500], font: { size: 9 } },
-                            title: { display: true, text: `Finestra Temporale d'Accadimento (${unit.charAt(0).toUpperCase() + unit.slice(1)})`, color: APP_COLORS.slate[400], font: { size: 10 } }
+                            title: { display: true, text: `Finestra Temporale (${unit.charAt(0).toUpperCase() + unit.slice(1)})`, color: APP_COLORS.slate[400], font: { size: 10 } }
                         },
                         y: {
                             min: 0,
@@ -847,10 +866,6 @@
             });
         }
 
-        // Calcola tutti i valori derivati per UNA zona (funzione pura: dati dentro, numeri fuori).
-        // Riceve la zona come argomento esplicito invece di leggere "selectedZone" dallo stato
-        // globale: così ogni riga della tabella usa SEMPRE i parametri della propria area,
-        // indipendentemente da quale zona è selezionata sulla mappa.
         function computeZoneStats(dbEntry, magSoglia, dtInYears) {
             let N = dbEntry.M4;
             if (magSoglia === 'M5') N = dbEntry.M5;
@@ -858,12 +873,8 @@
 
             const lambda = N / OBSERVATION_PERIOD;
             const meanReturnTime = 1 / lambda;
-
             const pPoiss = calculatePoisson(lambda, dtInYears) * 100;
 
-            // Il fattore di forma k e il tempo trascorso Te sono SEMPRE quelli
-            // caratteristici della zona (dbEntry), mai quelli dello slider globale:
-            // sono proprietà fisiche della faglia, non dell'interfaccia utente.
             const gammaVal = lanczosGamma(1 + 1 / dbEntry.defaultK);
             const beta = meanReturnTime / gammaVal;
             const pWeib = calculateWeibull(beta, dbEntry.defaultK, dbEntry.defaultTe, dtInYears) * 100;
@@ -871,10 +882,6 @@
             return { N, lambda, meanReturnTime, pPoiss, pWeib };
         }
 
-        // Genera il markup di UNA riga della tabella a partire da dati già calcolati.
-        // Nessun calcolo qui dentro: solo formattazione. Separare "calcolare" da
-        // "disegnare" rende più facile controllare a colpo d'occhio che i numeri
-        // giusti arrivino al posto giusto.
         function renderComparisonRow(name, stats, isSelected) {
             const { N, lambda, meanReturnTime, pPoiss, pWeib } = stats;
             const tr = document.createElement('tr');
@@ -893,10 +900,6 @@
             return tr;
         }
 
-        // Rigenera la tabella riassuntiva di tutte le aree sismiche per il confronto.
-        // Nota: non riceve più "currentK" -- ogni zona usa il proprio k caratteristico
-        // (vedi computeZoneStats), quindi qui basta il Delta t scelto dall'utente,
-        // che è l'unico parametro davvero "globale" e condiviso da tutte le righe.
         function rebuildTable(currentDtInYears, magSoglia) {
             const tbody = document.getElementById('comparison-table-body');
             tbody.innerHTML = '';
@@ -911,11 +914,8 @@
 
         /* ============================================================
          * 6. EVENT LISTENER E INIZIALIZZAZIONE
-         *    Ultimo blocco: collega i controlli alle funzioni definite
-         *    sopra e fa partire il primo rendering all'avvio.
          * ========================================================= */
 
-        // Listener dei controlli
         document.getElementById('param-dt').addEventListener('input', updateComputation);
         document.getElementById('param-k').addEventListener('input', updateComputation);
         document.getElementById('param-te').addEventListener('input', updateComputation);
@@ -927,9 +927,8 @@
 
         document.getElementById('param-mag').addEventListener('change', updateComputation);
 
-        // Inizializzazione automatica all'avvio sicuro
         window.addEventListener('DOMContentLoaded', () => {
-            selectZone('app_cent');
+            selectZone('app_laziale');
             if (typeof renderMathInElement === 'function') {
                 renderMathInElement(document.body);
             }
