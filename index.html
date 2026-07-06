@@ -16,6 +16,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem; /* Ridotto il font base del body a 13px */
         }
         .code-font {
             font-family: 'Fira Code', monospace;
@@ -34,23 +35,23 @@
 
     <!-- Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center gap-3">
-                <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="p-1.5 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                        RISCHIO SISMICO ITALIA <span class="text-xs bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded border border-rose-500/30">MEMORIA ISTANTANEA DI WEIBULL</span>
+                    <h1 class="text-lg font-extrabold tracking-tight text-white flex items-center gap-2">
+                        RISCHIO SISMICO ITALIA <span class="text-[10px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded border border-rose-500/30">WEIBULL MEMORY MODEL</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Ricarica elastica delle faglie e stima della probabilità condizionata per la giornata odierna</p>
+                    <p class="text-[10px] text-slate-400">Ricarica elastica delle faglie e stima della probabilità condizionata per la finestra di esposizione</p>
                 </div>
             </div>
-            <div class="text-xs text-slate-400 flex items-center gap-4 border-l border-slate-800 pl-4">
+            <div class="text-[10px] text-slate-400 flex items-center gap-3 border-l border-slate-800 pl-3">
                 <div>
-                    <span class="block text-slate-500 uppercase font-semibold">Data Odierna</span>
+                    <span class="block text-slate-500 uppercase font-semibold">Data Riferimento</span>
                     <span class="text-white font-medium">4 Luglio 2026</span>
                 </div>
                 <div>
@@ -62,34 +63,34 @@
     </header>
 
     <!-- Main Content Grid -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <!-- Intro scientifica focalizzata su OGGI -->
-        <div class="mb-8 p-6 bg-slate-900 rounded-2xl border border-slate-800 relative overflow-hidden">
+        <!-- Intro scientifica focalizzata sul Paradosso Temporale -->
+        <div class="mb-6 p-5 bg-slate-900 rounded-2xl border border-slate-800 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-96 h-96 bg-rose-500/5 rounded-full blur-3xl pointer-events-none"></div>
-            <h2 class="text-lg font-bold text-white mb-2">La Funzione di Pericolo Istantaneo (Hazard Rate) Condizionata a Oggi</h2>
-            <p class="text-sm text-slate-300 leading-relaxed max-w-4xl">
-                La probabilità di un terremoto <strong>oggi stesso</strong> condizionata alla data dell'ultimo sblocco faglia esprime la maturità sismica del sistema. Se l'ultimo evento è molto lontano nel tempo, la faglia ha accumulato stress elastico per decenni senza rilascio: la sua probabilità condizionata odierna schizza verso l'alto. Al contrario, se l'evento is recente, il rischio di un nuovo sisma indipendente oggi crolla temporaneamente a livelli infinitesimali.
+            <h2 class="text-base font-bold text-white mb-1.5">La Funzione di Pericolo Istantaneo e la Finestra di Esposizione (\(\Delta t\))</h2>
+            <p class="text-xs text-slate-300 leading-relaxed max-w-4xl">
+                La probabilità condizionata sismica dipende della finestra temporale di osservazione scelta. Per una faglia in forte ritardo sismico (es. Friuli), la probabilità di rottura nelle prossime 24 ore è numericamente contenuta (es. \(\approx 1.8\%\)), ma rappresenta un valore eccezionalmente elevato su base quotidiana. Estendendo la finestra di calcolo a 30 giorni o a 1 anno, la probabilità cumulata di Weibull rispecchia fedelmente lo stato di ricarica tensionale accumulata, salendo a valori superiori all'80%.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- Sinistra: Mappa & Controlli -->
-            <div class="lg:col-span-5 space-y-8">
+            <div class="lg:col-span-5 space-y-6">
                 
                 <!-- Pannello Parametri Interattivi di Faglia -->
-                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl">
-                    <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
-                        <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span>
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-xl">
+                    <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-3.5 bg-rose-500 rounded-full"></span>
                         TARATURA DEL COMPORTAMENTO DI FAGLIA
                     </h3>
                     
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         <!-- Finestra di Esposizione Temporale -->
                         <div>
-                            <label class="block text-xs text-slate-400 font-medium uppercase mb-2">Finestra di Esposizione (\(\Delta t\))</label>
-                            <select id="exposure-select" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-rose-500 transition-colors">
+                            <label class="block text-[10px] text-slate-400 font-medium uppercase mb-1.5">Finestra di Esposizione (\(\Delta t\))</label>
+                            <select id="exposure-select" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-rose-500 transition-colors">
                                 <option value="1">1 Giorno (24 ore)</option>
                                 <option value="7">7 Giorni (1 Settimana)</option>
                                 <option value="30" selected>30 Giorni (1 Mese)</option>
@@ -97,47 +98,47 @@
                                 <option value="180">180 Giorni (6 Mesi)</option>
                                 <option value="365">365 Giorni (1 Anno)</option>
                             </select>
-                            <span class="text-[10px] text-slate-500 block mt-1">
+                            <span class="text-[9px] text-slate-500 block mt-1">
                                 Scegli l'orizzonte futuro entro cui calcolare la probabilità a partire da oggi.
                             </span>
                         </div>
 
                         <!-- Parametro di Forma Weibull k -->
                         <div>
-                            <div class="flex justify-between text-xs mb-2">
+                            <div class="flex justify-between text-[10px] mb-1">
                                 <span class="text-slate-400 font-medium uppercase">Fattore di Forma Weibull (\(k\))</span>
                                 <span class="text-rose-400 font-bold" id="shape-val">1.50</span>
                             </div>
-                            <input type="range" id="shape-slider" min="1.0" max="3.0" step="0.05" value="1.5" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
-                            <span class="text-[10px] text-slate-500 block mt-1">
-                                \(k = 1.0\): Poisson (senza memoria). \(k > 1.0\): Memoria positiva (il rischio cresce con la quiescenza).
+                            <input type="range" id="shape-slider" min="1.0" max="3.0" step="0.05" value="1.5" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                            <span class="text-[9px] text-slate-500 block mt-0.5">
+                                \(k = 1.0\): Poisson (senza memoria). \(k > 1.0\): Memoria positiva.
                             </span>
                         </div>
 
                         <!-- Quiescenza Attiva Modificabile -->
                         <div>
-                            <div class="flex justify-between text-xs mb-2">
+                            <div class="flex justify-between text-[10px] mb-1">
                                 <span class="text-slate-400 font-medium uppercase">Anni di Quiescenza Accumulati (\(T_e\))</span>
                                 <span class="text-rose-400 font-bold" id="quiescence-val">12.4 Anni</span>
                             </div>
-                            <input type="range" id="quiescence-slider" min="0" max="50" step="0.1" value="12" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
-                            <span class="text-[10px] text-slate-500 block mt-1">
-                                Tempo trascorso dall'ultimo evento reale a oggi. Puoi simulare quiescenze maggiori per analizzare scenari di ricarica estremi.
+                            <input type="range" id="quiescence-slider" min="0" max="50" step="0.1" value="12" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                            <span class="text-[9px] text-slate-500 block mt-0.5">
+                                Tempo trascorso dall'ultimo evento reale a oggi.
                             </span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Mappa SVG Italia -->
-                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl relative">
-                    <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2">
-                        <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span>
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-xl relative">
+                    <h3 class="text-sm font-bold text-white mb-1.5 flex items-center gap-2">
+                        <span class="w-1.5 h-3.5 bg-rose-500 rounded-full"></span>
                         DISTRETTI SISMOTETTONICI ITALIANI
                     </h3>
-                    <p class="text-xs text-slate-400 mb-6">Fai clic su una delle 16 micro-zone sismotettoniche per caricare il suo stato di ricarica a oggi.</p>
+                    <p class="text-xs text-slate-400 mb-4">Fai clic su una delle 16 micro-zone sismotettoniche per caricare il suo stato di ricarica a oggi.</p>
                     
                     <div class="flex justify-center items-center">
-                        <svg viewBox="0 0 600 700" class="w-full max-w-[450px] h-auto drop-shadow-2xl">
+                        <svg viewBox="0 0 600 700" class="w-full max-w-[380px] h-auto drop-shadow-2xl">
                             <rect width="600" height="700" fill="transparent"/>
                             
                             <!-- 1. ALP_OCC -->
@@ -210,87 +211,87 @@
             </div>
 
             <!-- Destra: Analisi Avanzata & Grafici -->
-            <div class="lg:col-span-7 space-y-8">
+            <div class="lg:col-span-7 space-y-6">
                 
                 <!-- Scheda Stato Attuale OGGI -->
-                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl relative overflow-hidden">
-                    <div class="flex justify-between items-start mb-6">
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-xl relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-4">
                         <div>
-                            <span class="text-xs font-bold text-rose-400 uppercase tracking-widest block mb-1">Rapporto di Ricarica Sismica</span>
-                            <h2 class="text-2xl font-extrabold text-white tracking-tight" id="zone-title">Scegli un distretto</h2>
-                            <p class="text-xs text-slate-400 mt-1" id="zone-desc"></p>
+                            <span class="text-[10px] font-bold text-rose-400 uppercase tracking-widest block mb-0.5">Rapporto di Ricarica Sismica</span>
+                            <h2 class="text-xl font-extrabold text-white tracking-tight" id="zone-title">Scegli un distretto</h2>
+                            <p class="text-[11px] text-slate-400 mt-0.5 leading-relaxed" id="zone-desc"></p>
                         </div>
-                        <div class="px-3 py-1 bg-slate-800 rounded-full border border-slate-700 text-xs text-slate-300 font-semibold uppercase tracking-wider" id="zone-code">
+                        <div class="px-2.5 py-0.5 bg-slate-800 rounded-full border border-slate-700 text-[10px] text-slate-300 font-semibold uppercase tracking-wider" id="zone-code">
                             -
                         </div>
                     </div>
 
                     <!-- Griglia Metriche Reali Complete -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/60">
-                            <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Sismi Mw &ge; 4.0</span>
-                            <span class="text-2xl font-black text-white" id="stat-count">-</span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">Dal 1981 ad oggi</span>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                        <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/60">
+                            <span class="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Sismi Mw &ge; 4.0</span>
+                            <span class="text-xl font-black text-white" id="stat-count">-</span>
+                            <span class="text-[8px] text-slate-500 block">Dal 1981 ad oggi</span>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/60">
-                            <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Tasso Tectonic (\(\lambda\))</span>
-                            <span class="text-2xl font-black text-white" id="stat-rate">-</span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">Eventi all'anno</span>
+                        <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/60">
+                            <span class="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Tasso Tectonic (\(\lambda\))</span>
+                            <span class="text-xl font-black text-white" id="stat-rate">-</span>
+                            <span class="text-[8px] text-slate-500 block">Eventi all'anno</span>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/60">
-                            <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Tempo di Ritorno (\(T_r\))</span>
-                            <span class="text-2xl font-black text-white text-rose-400" id="stat-return">-</span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">Anni di ciclo medio</span>
+                        <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/60">
+                            <span class="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Tempo Ritorno (\(T_r\))</span>
+                            <span class="text-xl font-black text-white text-rose-400" id="stat-return">-</span>
+                            <span class="text-[8px] text-slate-500 block">Anni di ciclo medio</span>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/60">
-                            <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Quiescenza ad Oggi (\(T_e\))</span>
-                            <span class="text-2xl font-black text-rose-400" id="stat-quiescence">-</span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">Anni trascorsi ad oggi</span>
+                        <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/60">
+                            <span class="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Quiescenza Oggi (\(T_e\))</span>
+                            <span class="text-xl font-black text-rose-400" id="stat-quiescence">-</span>
+                            <span class="text-[8px] text-slate-500 block">Anni passati ad oggi</span>
                         </div>
                     </div>
 
                     <!-- Riquadro Ultimo Sisma -->
-                    <div class="p-4 bg-rose-500/5 rounded-xl border border-rose-500/10 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <div class="p-3 bg-rose-500/5 rounded-lg border border-rose-500/10 mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1.5">
                         <div>
-                            <span class="text-[10px] font-bold text-rose-400 uppercase tracking-widest block">Ultimo Terremoto Mw &ge; 4.0 Rilevato</span>
-                            <span class="text-sm font-semibold text-white block mt-1" id="stat-last-event">-</span>
+                            <span class="text-[9px] font-bold text-rose-400 uppercase tracking-widest block">Ultimo Terremoto Mw &ge; 4.0 Rilevato</span>
+                            <span class="text-xs font-semibold text-white block mt-0.5" id="stat-last-event">-</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-xs bg-rose-500/20 text-rose-400 font-mono px-2 py-0.5 rounded border border-rose-500/30 font-bold" id="stat-last-date">-</span>
+                            <span class="text-[10px] bg-rose-500/20 text-rose-400 font-mono px-2 py-0.5 rounded border border-rose-500/30 font-bold" id="stat-last-date">-</span>
                         </div>
                     </div>
 
                     <!-- METRICHE DI RISCHIO CONDIZIONATO -->
-                    <div class="p-6 bg-slate-950/80 rounded-2xl border border-slate-800 relative overflow-hidden mb-6">
+                    <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800 relative overflow-hidden mb-4">
                         <div class="absolute top-0 right-0 w-48 h-48 bg-rose-500/5 rounded-full blur-2xl pointer-events-none"></div>
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
                             VALUTAZIONE DEL RISCHIO NELLA FINESTRA SELEZIONATA
                         </h4>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
                             
                             <!-- Weibull Condizionata nella finestra selezionata -->
                             <div>
-                                <span class="block text-[10px] text-slate-400 uppercase tracking-widest mb-1" id="weibull-exposure-title">Probabilità Condizionata (30 Giorni)</span>
-                                <div class="text-4xl font-black text-rose-400 tracking-tight" id="prob-oggi">-</div>
-                                <div class="w-full bg-slate-850 h-2 rounded-full mt-3 mb-2">
-                                    <div class="bg-rose-500 h-2 rounded-full transition-all duration-500" id="bar-oggi" style="width: 0%"></div>
+                                <span class="block text-[9px] text-slate-400 uppercase tracking-widest mb-0.5" id="weibull-exposure-title">Probabilità Condizionata (30 Giorni)</span>
+                                <div class="text-3xl font-black text-rose-400 tracking-tight" id="prob-oggi">-</div>
+                                <div class="w-full bg-slate-850 h-1.5 rounded-full mt-2 mb-1.5">
+                                    <div class="bg-rose-500 h-1.5 rounded-full transition-all duration-500" id="bar-oggi" style="width: 0%"></div>
                                 </div>
-                                <span class="text-[10px] text-slate-500 block">
+                                <span class="text-[9px] text-slate-500 block leading-tight">
                                     Probabilità cumulativa di scorrimento faglia nell'orizzonte scelto condizionata dal silenzio trascorso.
                                 </span>
                             </div>
 
                             <!-- Hazard Rate Istantaneo Oggi -->
-                            <div class="border-l border-slate-800 pl-6">
-                                <span class="block text-[10px] text-slate-400 uppercase tracking-widest mb-1">Tasso di Pericolo Istantaneo Oggi (\(h(T_e)\))</span>
-                                <div class="text-4xl font-black text-white tracking-tight" id="hazard-oggi">-</div>
-                                <div class="flex items-center gap-2 mt-4 text-[10px]" id="ratio-container">
+                            <div class="border-l border-slate-800 pl-4">
+                                <span class="block text-[9px] text-slate-400 uppercase tracking-widest mb-0.5">Tasso di Pericolo Istantaneo Oggi (\(h(T_e)\))</span>
+                                <div class="text-3xl font-black text-white tracking-tight" id="hazard-oggi">-</div>
+                                <div class="flex items-center gap-1.5 mt-2.5 text-[9px]" id="ratio-container">
                                     <span class="text-slate-500">Rapporto di sovraccarico faglia:</span>
                                     <span class="text-rose-400 font-bold font-mono" id="hazard-vs-poisson">-</span>
                                 </div>
-                                <span class="text-[10px] text-slate-500 block mt-1">
+                                <span class="text-[9px] text-slate-500 block mt-1 leading-tight">
                                     Intensità di pericolo istantaneo odierno normalizzato rispetto al tasso piatto sismico di Poisson.
                                 </span>
                             </div>
@@ -299,26 +300,26 @@
                     </div>
 
                     <!-- Comparison cards with Poisson -->
-                    <div class="p-4 bg-slate-950/40 rounded-xl border border-slate-850 text-xs text-slate-400 flex flex-col md:flex-row justify-between gap-4" id="probability-section">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    <div class="p-3 bg-slate-950/40 rounded-lg border border-slate-850 text-[10px] text-slate-400 flex flex-col md:flex-row justify-between gap-3" id="probability-section">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                             <span><strong id="poisson-card-title">Rischio piatto (Poisson)</strong>: <span class="text-white font-mono" id="prob-poisson">-</span></span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
                             <span><strong id="weibull-card-title">Rischio condizionato (Weibull)</strong>: <span class="text-rose-400 font-mono font-bold" id="prob-weibull">-</span></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Grafico Curva di Pericolo Istantaneo e Marker "OGGI" -->
-                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl">
-                    <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2">
-                        <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span>
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-xl">
+                    <h3 class="text-sm font-bold text-white mb-1.5 flex items-center gap-2">
+                        <span class="w-1.5 h-3.5 bg-rose-500 rounded-full"></span>
                         EVOLUZIONE DEL PERICOLO ISTANTANEO (\(h(t)\)) E COLLOCAZIONE DI OGGI
                     </h3>
-                    <p class="text-xs text-slate-400 mb-4">La linea verticale tratteggiata indica l'esatta collocazione temporale di oggi (\(t=T_e\)) lungo il ciclo di accumulo tensionale teorico.</p>
-                    <div class="w-full h-72">
+                    <p class="text-xs text-slate-400 mb-3">La linea verticale tratteggiata indica l'esatta collocazione temporale di oggi (\(t=T_e\)) lungo il ciclo di accumulo tensionale teorico.</p>
+                    <div class="w-full h-60">
                         <canvas id="hazard-chart"></canvas>
                     </div>
                 </div>
@@ -328,27 +329,27 @@
         </div>
 
         <!-- Tabella di Riepilogo e Confronto Sotto-Distretti -->
-        <div class="mt-12 bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl overflow-hidden">
-            <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
-                <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span>
+        <div class="mt-8 bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-xl overflow-hidden">
+            <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                <span class="w-1.5 h-3.5 bg-rose-500 rounded-full"></span>
                 CONFRONTO DELLO STATO DI CARICO E PROBABILITÀ CONDIVISA NEI SOTTO-DISTRETTI
             </h3>
-            <p class="text-xs text-slate-400 mb-6">Confronto dei 16 distretti sismotettonici italiani per Mw &ge; 4.0, aggiornati in tempo reale.</p>
+            <p class="text-xs text-slate-400 mb-4">Confronto dei 16 distretti sismotettonici italiani per Mw &ge; 4.0, aggiornati in tempo reale.</p>
             
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                            <th class="py-3 px-4 font-bold">Codice</th>
-                            <th class="py-3 px-4 font-bold">Sotto-Distretto</th>
-                            <th class="py-3 px-4 text-center font-bold">N. Sismi (1981-2026)</th>
-                            <th class="py-3 px-4 text-center font-bold">Tempo Ritorno (Anni)</th>
-                            <th class="py-3 px-4 text-center font-bold">Quiescenza ad Oggi (\(T_e\))</th>
-                            <th class="py-3 px-4 text-center font-bold text-blue-400 font-medium" id="poisson-header-label">Rischio Poisson</th>
-                            <th class="py-3 px-4 text-center font-bold text-rose-400 font-medium" id="weibull-header-label">Rischio Weibull</th>
+                        <tr class="border-b border-slate-800 text-[9px] text-slate-400 uppercase tracking-wider">
+                            <th class="py-2.5 px-3 font-bold">Codice</th>
+                            <th class="py-2.5 px-3 font-bold">Sotto-Distretto</th>
+                            <th class="py-2.5 px-3 text-center font-bold">N. Sismi (1981-2026)</th>
+                            <th class="py-2.5 px-3 text-center font-bold">Tempo Ritorno (Anni)</th>
+                            <th class="py-2.5 px-3 text-center font-bold">Quiescenza ad Oggi (\(T_e\))</th>
+                            <th class="py-2.5 px-3 text-center font-bold text-blue-400 font-medium" id="poisson-header-label">Rischio Poisson</th>
+                            <th class="py-2.5 px-3 text-center font-bold text-rose-400 font-medium" id="weibull-header-label">Rischio Weibull</th>
                         </tr>
                     </thead>
-                    <tbody id="comparison-table-body" class="text-xs text-slate-300 divide-y divide-slate-850">
+                    <tbody id="comparison-table-body" class="text-[11px] text-slate-300 divide-y divide-slate-850">
                         <!-- Righe popolate sismologicamente -->
                     </tbody>
                 </table>
@@ -356,16 +357,16 @@
         </div>
 
         <!-- Note Metodologiche e Formulario LaTeX -->
-        <section class="mt-12 bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-xl" id="latex-formulas">
-            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span>
+        <section class="mt-8 bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl" id="latex-formulas">
+            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                <span class="w-1.5 h-3.5 bg-rose-500 rounded-full"></span>
                 NOTE METODOLOGICHE E RIGORE SCIENTIFICO
             </h3>
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-sm text-slate-300 leading-relaxed">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs text-slate-300 leading-relaxed">
                 <div>
-                    <h4 class="font-bold text-white mb-3 text-rose-400">1. Probabilità Condizionata con Esposizione Variabile</h4>
-                    <p class="mb-4">
+                    <h4 class="font-bold text-white mb-2 text-rose-400">1. Probabilità Condizionata con Esposizione Variabile</h4>
+                    <p class="mb-3">
                         Nel calcolo sismologico di ricarica tempo-dipendente, l'equazione della probabilità condizionata valuta se la rottura avverrà entro una finestra di durata sismica pari a \(\Delta t\) anni, sapendo che la faglia è rimasta silente fino ad oggi per un tempo sismico di quiescenza pari a \(T_e\) anni:
                         $$P(T \le T_e + \Delta t \mid T > T_e) = 1 - \exp \left[ \left( \frac{T_e}{\theta} \right)^k - \left( \frac{T_e + \Delta t}{\theta} \right)^k \right]$$
                         Se la finestra di esposizione \(\Delta t\) è molto breve (es. 24 ore), la probabilità condizionata istantanea sarà matematicamente piccola, pur superando di gran lunga l'omologa probabilità poissoniana. Espandendo la finestra di calcolo (es. a 1 mese o 1 anno) su sistemi sismicamente sovraccarichi (\(T_e > T_r\)), la probabilità condizionata sale con velocità esponenziale.
@@ -373,8 +374,8 @@
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-white mb-3 text-rose-400">2. Funzione di Pericolo Istantaneo (Hazard Rate)</h4>
-                    <p class="mb-4">
+                    <h4 class="font-bold text-white mb-2 text-rose-400">2. Funzione di Pericolo Istantaneo (Hazard Rate)</h4>
+                    <p class="mb-3">
                         La funzione di pericolo o <em>hazard rate</em> \(h(t)\) rappresenta la frequenza istantanea di occorrenza di un terremoto al tempo \(t\), sotto l'ipotesi di sopravvivenza (assenza di rottura) del sistema fino a quel momento:
                         $$h(t) = \frac{f(t)}{1 - F(t)} = \frac{k}{\theta} \left( \frac{t}{\theta} \right)^{k-1}$$
                         Mentre nel modello piatto di Poisson l'hazard rate è rigorosamente costante e pari a \(\lambda\), nel modello sismotettonico di Weibull \(h(t)\) è una funzione crescente del tempo (per \(k > 1\)), riflettendo l'accumulo fisico di sforzo tettonico lungo il piano di faglia.
@@ -382,15 +383,15 @@
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-white mb-3 text-rose-400">3. Eliminazione delle Repliche (Declustering via Gardner-Knopoff)</h4>
-                    <p class="mb-4">
+                    <h4 class="font-bold text-white mb-2 text-rose-400">3. Eliminazione delle Repliche (Declustering via Gardner-Knopoff)</h4>
+                    <p class="mb-3">
                         I conteggi sismici storici reali inseriti nel database dell'applicazione sono depurati dai fenomeni di clustering (sciami sismici e repliche/aftershock) applicando l'algoritmo bidimensionale di <strong>Gardner e Knopoff (1974)</strong>. Questa operazione di filtraggio matematico è propedeutica ed essenziale per non violare l'assunzione di indipendenza sismotettonica degli eventi.
                     </p>
-                    <p class="mb-4">
+                    <p class="mb-3">
                         Le equazioni applicate per impostare i limiti dinamici di raggio spaziale $d$ (in km) e di intervallo temporale $t$ (in giorni) in funzione della magnitudo $M$ del mainshock sono:
                         $$d(M) = 10^{0.125 \cdot M + 0.978}$$
                         $$\log_{10}(t) = \begin{cases} 0.54 \cdot M - 0.54 & \text{se } M < 6.5 \\ 0.93 \cdot M - 3.06 & \text{se } M \ge 6.5 \end{cases}$$
-                        Tutte le scosse con magnitudo inferiore a quella dell'evento generatore che si manifestano all'interno di questi limiti elastici vengono identificate come repliche ed eliminate a monte dal database storico consolidato dell'INGV.
+                        Tutte le scosse con magnitudo inferiore a quella dell'evento generatore che si manifestano all'interno di questi limiti vengono identificate come repliche ed eliminate a monte dal database storico dell'INGV.
                     </p>
                 </div>
             </div>
@@ -399,9 +400,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-950 py-8 text-center text-xs text-slate-500">
+    <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-[10px] text-slate-500">
         <p>&copy; 2026. Sviluppato per la divulgazione e l'analisi sismotettonica quantitativa in Italia. Dati sismici INGV CPTI15.</p>
-        <p class="mt-1 text-slate-600">Le analisi fornite hanno valenza esclusivamente probabilistica e scientifica, e non rappresentano in alcun modo previsioni sismiche deterministiche.</p>
+        <p class="mt-0.5 text-slate-600">Le analisi fornite hanno valenza esclusivamente probabilistica e scientifica, e non rappresentano in alcun modo previsioni sismiche deterministiche.</p>
     </footer>
 
     <!-- SCRIPT LOGIC -->
@@ -757,13 +758,13 @@
                 }
 
                 tr.innerHTML = `
-                    <td class="py-3.5 px-4 font-mono font-semibold text-slate-400">${zone.code}</td>
-                    <td class="py-3.5 px-4 text-white">${zone.name}</td>
-                    <td class="py-3.5 px-4 text-center">${zone.count}</td>
-                    <td class="py-3.5 px-4 text-center">${stats.Tr.toFixed(2)}</td>
-                    <td class="py-3.5 px-4 text-center text-slate-400">${stats.Te.toFixed(2)}</td>
-                    <td class="py-3.5 px-4 text-center text-blue-400 font-mono">${(stats.probPoissonOggi * 100).toFixed(4)}%</td>
-                    <td class="py-3.5 px-4 text-center text-rose-400 font-mono">${(stats.probWeibullOggi * 100).toFixed(4)}% <span class="text-[9px] text-slate-500 font-normal"> (k=${activeK.toFixed(2)})</span></td>
+                    <td class="py-2.5 px-3 font-mono font-semibold text-slate-400">${zone.code}</td>
+                    <td class="py-2.5 px-3 text-white">${zone.name}</td>
+                    <td class="py-2.5 px-3 text-center">${zone.count}</td>
+                    <td class="py-2.5 px-3 text-center">${stats.Tr.toFixed(2)}</td>
+                    <td class="py-2.5 px-3 text-center text-slate-400">${stats.Te.toFixed(2)}</td>
+                    <td class="py-2.5 px-3 text-center text-blue-400 font-mono">${(stats.probPoissonOggi * 100).toFixed(4)}%</td>
+                    <td class="py-2.5 px-3 text-center text-rose-400 font-mono">${(stats.probWeibullOggi * 100).toFixed(4)}% <span class="text-[9px] text-slate-500 font-normal"> (k=${activeK.toFixed(2)})</span></td>
                 `;
                 tr.style.cursor = "pointer";
                 tr.onclick = () => selectZone(zoneId);
@@ -833,7 +834,7 @@
                     labels: timeLabels,
                     datasets: [
                         {
-                            label: 'Curva di Carico Istantaneo (Weibull)',
+                            label: 'Curva di Carico (Weibull)',
                             data: hazardCurveData,
                             borderColor: '#f43f5e',
                             backgroundColor: 'rgba(244, 63, 94, 0.05)',
